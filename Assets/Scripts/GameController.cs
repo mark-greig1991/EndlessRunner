@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] FadeController fadeController;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] Transform player;
@@ -21,6 +23,7 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        StartCoroutine(fadeController.FadeIn(0.5f));
         currentSpeed = baseSpeed;
         gameOverPanel.SetActive(false);   
     }
@@ -46,6 +49,13 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f; // resume the game
+        StartCoroutine(RestartWithFade());
+    }
+
+    IEnumerator RestartWithFade()
+    {
+        yield return StartCoroutine(fadeController.FadeOut(0.5f));
+        yield return new WaitForSecondsRealtime(0.2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
