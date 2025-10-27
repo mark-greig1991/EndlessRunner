@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     private float currentSpeed;
 
     private bool isGameOver = false;
-    private float score = 0f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,16 +34,11 @@ public class GameController : MonoBehaviour
             currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, accelerationRate * Time.deltaTime);
             player.GetComponent<PlayerController>().SetForwardSpeed(currentSpeed);
         }
-        if (isGameOver)
-        {
-            score = player.position.z;
-            scoreText.text = "Final Score: " + Mathf.FloorToInt(score).ToString();
-        }
     }
 
     public void GameOver()
     {
-        isGameOver = true;
+        FindFirstObjectByType<ScoreManager>().OnGameOver();
         gameOverPanel.SetActive(true);
         Time.timeScale = 0f; // pause the game
     }
