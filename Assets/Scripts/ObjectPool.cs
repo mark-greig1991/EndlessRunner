@@ -11,18 +11,11 @@ public class ObjectPool : MonoBehaviour
         public float unlockDistance = 0f;
     }
     public WeightedPrefab[] weightedPrefabs;
-    // [SerializeField] private GameObject[] prefabs;
     [SerializeField] private int initialPoolSize = 10;
     private Queue<GameObject> pool = new();
 
     void Awake()
     {
-        // if (prefabs.Length == 0 || prefabs == null)
-        // {
-        //     Debug.LogError("ObjectPool: No prefabs assigned to the pool.");
-        //     return;
-        // }
-
         for (int i = 0; i < initialPoolSize; i++)
         {
             GameObject prefab = GetRandomPrefab();
@@ -110,26 +103,26 @@ public class ObjectPool : MonoBehaviour
     }
     
     public void RefreshPool()
-{
-    Queue<GameObject> newPool = new();
-
-    while (pool.Count > 0)
     {
-        GameObject obj = pool.Dequeue();
-        Destroy(obj); // or ReturnToPool() with new prefab later
-    }
+        Queue<GameObject> newPool = new();
 
-    for (int i = 0; i < initialPoolSize; i++)
-    {
-        GameObject prefab = GetRandomPrefab();
-        GameObject obj = Instantiate(prefab);
-        obj.SetActive(false);
-        newPool.Enqueue(obj);
-    }
+        while (pool.Count > 0)
+        {
+            GameObject obj = pool.Dequeue();
+            Destroy(obj); // or ReturnToPool() with new prefab later
+        }
 
-    while (newPool.Count > 0)
-        pool.Enqueue(newPool.Dequeue());
-}
+        for (int i = 0; i < initialPoolSize; i++)
+        {
+            GameObject prefab = GetRandomPrefab();
+            GameObject obj = Instantiate(prefab);
+            obj.SetActive(false);
+            newPool.Enqueue(obj);
+        }
+
+        while (newPool.Count > 0)
+            pool.Enqueue(newPool.Dequeue());
+    }
 
 
     // deactivates and returns the passed object to the pool (queue)

@@ -134,6 +134,12 @@ public class TrackManager : MonoBehaviour
         }
 
         GameObject pickup = pickupPool.GetFromPool(spawnPos, UnityEngine.Quaternion.identity, tileParent);
+
+        Pickup pickupScript = pickup.GetComponent<Pickup>();
+        if (pickupScript != null)
+        {
+            pickupScript.SetPool(pickupPool);
+        }
     }
 
     void RecycleTile()
