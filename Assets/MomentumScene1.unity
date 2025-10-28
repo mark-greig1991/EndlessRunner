@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ad9c09b9c3be24aaf776e02539fb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameController
+  fadeController: {fileID: 897757162}
   scoreText: {fileID: 266244883}
   gameOverPanel: {fileID: 1532694097}
   player: {fileID: 90983440}
@@ -717,6 +718,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &335244649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 335244651}
+  - component: {fileID: 335244650}
+  m_Layer: 0
+  m_Name: PickupPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &335244650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335244649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fd5ea8bc5eeb324a915bb33f2a0625a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  weightedPrefabs:
+  - prefab: {fileID: 1929510764705581410, guid: fe262dd3176e28d4ea7206b07897a6c7, type: 3}
+    weight: 0.8
+    unlockDistance: 0
+  initialPoolSize: 20
+--- !u!4 &335244651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335244649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &358995706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,6 +1257,94 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534794143}
   m_CullTransparentMesh: 1
+--- !u!1 &897757158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 897757159}
+  - component: {fileID: 897757161}
+  - component: {fileID: 897757160}
+  - component: {fileID: 897757162}
+  m_Layer: 5
+  m_Name: FadeOverlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &897757159
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897757158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1233161540}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &897757160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897757158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &897757161
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897757158}
+  m_CullTransparentMesh: 1
+--- !u!114 &897757162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897757158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f3ed0b5efcf5d489f5a2ef2b63c8cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeController
 --- !u!1 &909039585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,7 +1495,7 @@ GameObject:
   - component: {fileID: 1233161537}
   - component: {fileID: 1233161536}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: HUDCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1379,6 +1517,7 @@ MonoBehaviour:
   player: {fileID: 90983440}
   highScoreText: {fileID: 521791859}
   scoreMultiplier: 1.5
+  pickupCount: 0
 --- !u!114 &1233161537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1454,6 +1593,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 897757159}
   - {fileID: 266244885}
   - {fileID: 521791858}
   - {fileID: 1532694100}
@@ -1626,7 +1766,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd5ea8bc5eeb324a915bb33f2a0625a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: 4011972157681690044, guid: 37061df513ed86c4bbf514e7ecf4ca4e, type: 3}
+  weightedPrefabs:
+  - prefab: {fileID: 4011972157681690044, guid: 37061df513ed86c4bbf514e7ecf4ca4e, type: 3}
+    weight: 0.8
+    unlockDistance: 0
+  - prefab: {fileID: 4011972157681690044, guid: 364fc77180413c443aa3fcf0101f532d, type: 3}
+    weight: 0.6
+    unlockDistance: 300
+  - prefab: {fileID: 4011972157681690044, guid: a4ac68aeccca2b24a9eb3b6645f0865d, type: 3}
+    weight: 0.4
+    unlockDistance: 600
   initialPoolSize: 20
 --- !u!4 &1528082716
 Transform:
@@ -2077,6 +2226,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5467eeba13173e4fac9bbdaeb82e325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrackManager
+  pickupPool: {fileID: 335244650}
+  pickupHeight: 1.5
+  pickupChance: 0.4
+  pickupZOffset: 5
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  minObstacleClearance: 2
   trackParent: {fileID: 395514497}
   trackPrefabs:
   - {fileID: 7214563739688209741, guid: aef8006b3da5da64ea801b169e5560d2, type: 3}
@@ -2084,10 +2241,10 @@ MonoBehaviour:
   tilesOnScreen: 6
   player: {fileID: 90983440}
   environmentParent: {fileID: 395514497}
-  obstaclePrefab: {fileID: 4011972157681690044, guid: 37061df513ed86c4bbf514e7ecf4ca4e, type: 3}
+  obstaclePrefab: {fileID: 4011972157681690044, guid: 364fc77180413c443aa3fcf0101f532d, type: 3}
   tilePool: {fileID: 1954618675}
   obstaclePool: {fileID: 1528082715}
-  obstacleChance: 0.4
+  obstacleChance: 0.6
 --- !u!4 &1851478346
 Transform:
   m_ObjectHideFlags: 0
@@ -2132,7 +2289,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd5ea8bc5eeb324a915bb33f2a0625a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: 7214563739688209741, guid: aef8006b3da5da64ea801b169e5560d2, type: 3}
+  weightedPrefabs:
+  - prefab: {fileID: 7214563739688209741, guid: aef8006b3da5da64ea801b169e5560d2, type: 3}
+    weight: 1
+    unlockDistance: 0
   initialPoolSize: 10
 --- !u!4 &1954618676
 Transform:
@@ -2347,3 +2507,4 @@ SceneRoots:
   - {fileID: 395514497}
   - {fileID: 1954618676}
   - {fileID: 1528082716}
+  - {fileID: 335244651}

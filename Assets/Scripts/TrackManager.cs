@@ -1,13 +1,24 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Numerics;
 
 public class TrackManager : MonoBehaviour
 {
+    [Header("Pickup Settings")]
+    [SerializeField] private ObjectPool pickupPool;
+    [SerializeField] private float pickupHeight = 1.5f;
+    [SerializeField] private float pickupChance = 0.4f;
+    [SerializeField] private float pickupZOffset = 5f;
+    [SerializeField] private LayerMask obstacleMask;
+    [SerializeField] private float minObstacleClearance = 2f;
+
+
     [Header("Track Settings")]
     [SerializeField] private Transform trackParent;
     public GameObject[] trackPrefabs;
     public float tileLength = 20f; // how far apart tiles are place on the X axis.
     public int tilesOnScreen = 6;
+    private float lastRefreshZ = 0f;
 
     [Header("References")]
     public Transform player;
@@ -48,16 +59,22 @@ public class TrackManager : MonoBehaviour
             SpawnTile(Random.Range(0, trackPrefabs.Length), true);
             RecycleTile();
         }
+
+        if (player.position.z - lastRefreshZ >= 250f)
+        {
+            obstaclePool.RefreshPool();
+            lastRefreshZ = player.position.z;
+        }
     }
 
 
     void SpawnTile(int prefabIndex, bool spawnObstacle)
     {
 
-        Vector3 spawnPos = Vector3.forward * spawnZ; // spawns the tile along the Z axis
+        UnityEngine.Vector3 spawnPos = UnityEngine.Vector3.forward * spawnZ; // spawns the tile along the Z axis
 
         // Retrieve a pre-existing tile from the pool, keeping its rotation and parenting it to the environment object. Tracks the tile in memory for later recycling.
-        GameObject tile = tilePool.GetFromPool(spawnPos, Quaternion.identity, environmentParent);
+        GameObject tile = tilePool.GetFromPool(spawnPos, UnityEngine.Quaternion.identity, environmentParent);
         activeTiles.Add(tile);
 
         // code to spawn an obstacle is outside to keep methods organised and readable
@@ -65,6 +82,8 @@ public class TrackManager : MonoBehaviour
         {
             TrySpawnObstacle(tile.transform);
         }
+
+        SpawnPickupForTile(tile.transform, tile.transform.position);
 
         spawnZ += tileLength; // increase by one tile length so the next tile spawns in at the correct position
     }
@@ -87,13 +106,34 @@ public class TrackManager : MonoBehaviour
             float laneX = (lane - 1) * 3f; // laneDistance = 3
             float localZ = Random.Range(4f, tileLength - 4f);
 
-            Vector3 localPos = new Vector3(laneX, 0.75f, localZ);
-            Vector3 worldPos = tileParent.position + localPos;
+            UnityEngine.Vector3 localPos = new UnityEngine.Vector3(laneX, 0.75f, localZ);
+            UnityEngine.Vector3 worldPos = tileParent.position + localPos;
 
             // pulls an obstacle from the pool and parents it for clean recycling
-            GameObject obstacle = obstaclePool.GetFromPool(worldPos, Quaternion.identity, tileParent);
+            GameObject obstacle = obstaclePool.GetFromPool(worldPos, UnityEngine.Quaternion.identity, tileParent);
             obstacle.tag = "Obstacle";
         }
+    }
+
+    private void SpawnPickupForTile(Transform tileParent, UnityEngine.Vector3 tilePosition)
+    {
+        if (Random.value > pickupChance)
+            return;
+
+        // random lane selection for variation
+        float laneOffset = Random.Range(-1, 2) * 3f; // laneWidth = 3f
+        UnityEngine.Vector3 spawnPos = tilePosition + new UnityEngine.Vector3(laneOffset, pickupHeight, pickupZOffset);
+
+        if (Physics.Raycast(spawnPos, UnityEngine.Vector3.down, out RaycastHit hit, 3f, obstacleMask))
+        {
+            if (hit.collider.CompareTag("Unjumpable"))
+            {
+                // Not enough clearance, do not spawn pickup
+                return;
+            }
+        }
+
+        GameObject pickup = pickupPool.GetFromPool(spawnPos, UnityEngine.Quaternion.identity, tileParent);
     }
 
     void RecycleTile()

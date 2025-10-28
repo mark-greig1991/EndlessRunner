@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] float scoreMultiplier = 1.5f;
 
     private float score = 0f;
+    public int pickupCount = 0;
     private int highScore;
 
     private bool isGameOver = false;
@@ -23,6 +24,7 @@ public class ScoreManager : MonoBehaviour
         startZ = player.position.z;
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         UpdateHighScoreUI();
+
     }
 
     // Update is called once per frame
@@ -35,14 +37,14 @@ public class ScoreManager : MonoBehaviour
         score = distance * scoreMultiplier;
 
         UpdateScoreUI();
-
-        // score += Time.deltaTime * scoreMultiplier * player.GetComponent<PlayerController>().forwardSpeed;
-        // scoreText.text = "Score: " + Mathf.FloorToInt(score).ToString();
     }
 
     void UpdateScoreUI()
     {
-        scoreText.text = $"Score: {Mathf.FloorToInt(score)}";
+        if (pickupCount == 0)
+            scoreText.text = $"Score: {Mathf.FloorToInt(score / 20)}";
+        else
+        scoreText.text = $"Score: {Mathf.FloorToInt(score / 20 * pickupCount)}";
     }
 
     void UpdateHighScoreUI()

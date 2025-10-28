@@ -29,7 +29,7 @@ public class PlayerCollision : MonoBehaviour
     // Game Over logic
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Obstacle") && !isDead)
+        if (other.CompareTag("Obstacle") || other.CompareTag("Unjumpable") && !isDead)
         {
             StartCoroutine(CameraShake(0.2f, 0.15f));
             isDead = true;
